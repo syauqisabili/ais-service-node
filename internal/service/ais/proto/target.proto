@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package target;
+
+import "google/protobuf/empty.proto";
+import "set_target.proto";
+
+option go_package = "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/ais/proto";
+
+service TargetService {
+    rpc SetTarget (stream SetTargetRequest) returns (google.protobuf.Empty);
+}

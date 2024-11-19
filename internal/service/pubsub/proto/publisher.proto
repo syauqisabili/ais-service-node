@@ -1,0 +1,21 @@
+
+syntax = "proto3";
+
+package pubsub;
+
+option go_package = "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/pubsub/proto";
+
+message Message {
+    bytes data = 1;
+    map<string, string> attributes = 2;
+    string id = 3;
+}
+
+message PublishRequest {
+    string key = 1;
+    repeated Message messages = 2;
+}
+
+message PublishResponse {
+    repeated string message_ids = 1;
+}

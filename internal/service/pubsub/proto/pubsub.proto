@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package pubsub;
+
+import "publisher.proto";
+import "subscriber.proto";
+
+option go_package = "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/pubsub/proto";
+
+service Subscriber {
+    rpc Authenticate(Identity) returns (Identity) {}
+    rpc Subscribe(SubscribeRequest) returns (Subscription) {}
+    rpc Unsubscribe(SubscribeRequest) returns (Subscription) {}
+    rpc Pull(Identity) returns (stream Message) {}
+}
+
+service Publisher {
+    rpc Publish(PublishRequest) returns (PublishResponse) {}
+}
+
+
+
+
+
+
+

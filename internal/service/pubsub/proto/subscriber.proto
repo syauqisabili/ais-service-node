@@ -1,0 +1,19 @@
+
+syntax = "proto3";
+
+package pubsub;
+
+option go_package = "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/pubsub/proto";
+
+message Identity {
+    string name = 1;
+}
+
+message Subscription {
+    string key = 1;
+}
+
+message SubscribeRequest {
+    Identity identity = 1;
+    Subscription subscription = 2;
+}

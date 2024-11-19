@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package target;
+
+option go_package = "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/ais/proto";
+
+message SetTargetRequest {
+    int64 timestammp = 1;
+    string status = 2;
+    uint32 mmsi = 3;
+    uint32 imo = 4;
+    string name = 5;
+    string call_sign = 6;
+    string class = 7;
+    uint32 ship_type = 8;
+    uint32 DimensionA = 9;
+    uint32 DimensionB = 10;
+    uint32 DimensionC = 11;  
+	uint32 DimensionD = 12;  
+    uint32 nav_status = 13;
+    float latitude = 14;
+    float longitude = 15;
+    float cog = 16;
+    float sog = 17;
+    uint32 true_heading = 18;
+    string destination = 19;
+}
+
+message SetTargetResponse {
+
+}
