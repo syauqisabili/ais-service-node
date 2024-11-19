@@ -1,0 +1,16 @@
+# Binaries
+/bin/
+/build/
+/logs/
+/.vscode/
+
+
+# Go modules
+*.mod
+*.sum
+
+# Dependency directories
+/vendor/
+
+# result of compiled proto files
+*.pb.go
