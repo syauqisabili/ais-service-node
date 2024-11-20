@@ -5,10 +5,10 @@ import (
 
 	"github.com/charmbracelet/log"
 	"github.com/joho/godotenv"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/config"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/config/network"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/ais/udp"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/pkg"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/config"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/config/network"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/ais/udp"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/pkg"
 )
 
 func init() {

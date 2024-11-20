@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package pubsub;
 
-option go_package = "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/pubsub/proto";
+option go_package = "gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/pubsub/proto";
 
 message Identity {
     string name = 1;

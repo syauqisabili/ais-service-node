@@ -8,11 +8,11 @@ import (
 
 	"github.com/BertoldVdb/go-ais"
 	"github.com/charmbracelet/log"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/config/network"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/domain"
-	pb "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/pubsub/proto"
-	publisher "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/pubsub/publib"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/pkg"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/config/network"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/domain"
+	pb "gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/pubsub/proto"
+	pub "gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/pubsub/pub"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/pkg"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -41,9 +41,9 @@ func PubSubMessageHandler(target domain.Target) error {
 		return err
 	}
 
-	// Publish message
+	//TODO: Publish message
 	topic := "/target"
-	publisher.Publish(c, topic, &pb.Message{
+	pub.Publish(c, topic, &pb.Message{
 		Data: message,
 	})
 

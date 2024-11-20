@@ -9,9 +9,9 @@ import (
 	"github.com/BertoldVdb/go-ais"
 	"github.com/BertoldVdb/go-ais/aisnmea"
 	"github.com/charmbracelet/log"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/config/network"
-	target "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/ais"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/pkg"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/config/network"
+	target "gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/ais"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/pkg"
 )
 
 var (

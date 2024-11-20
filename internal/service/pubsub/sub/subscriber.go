@@ -5,7 +5,7 @@ import (
 	"io"
 	"sync"
 
-	pb "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/pubsub/proto"
+	pb "gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/pubsub/proto"
 )
 
 type SubscriberContext struct {

@@ -5,7 +5,7 @@ package pubsub;
 import "publisher.proto";
 import "subscriber.proto";
 
-option go_package = "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/pubsub/proto";
+option go_package = "gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/pubsub/proto";
 
 service Subscriber {
     rpc Authenticate(Identity) returns (Identity) {}

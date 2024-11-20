@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/charmbracelet/log"
-	pb "gitlab.com/elcarim-optronic-indonesia/ais-service-node/internal/service/pubsub/proto"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/pkg"
+	pb "gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/pubsub/proto"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/pkg"
 )
 
 func Publish(client pb.PublisherClient, key string, msg *pb.Message) {

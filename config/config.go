@@ -1,8 +1,8 @@
 package config
 
 import (
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/config/network"
-	"gitlab.com/elcarim-optronic-indonesia/ais-service-node/pkg"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/config/network"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/pkg"
 
 	"fmt"
 	"os"
