@@ -75,7 +75,8 @@ func Run() {
 			// Check decoded ais message is null
 			if decoded != nil {
 				// send ais msg to handler via dispatcher
-				if err := target.Handler(decoded.Packet); err != nil {
+				err := target.Handler(decoded.Packet)
+				if err != nil {
 					pkg.Log(log.ErrorLevel, err.Error())
 				}
 			}

@@ -19,6 +19,11 @@ const (
 	ClassC Class = "C" // Aton
 )
 
+type AisTarget struct {
+	MessageID uint8  `json:"message_id"`
+	Target    Target `json:"target"`
+}
+
 type Target struct {
 	Timestamp          int64                 `json:"timestamp"`
 	Status             string                `json:"status"`

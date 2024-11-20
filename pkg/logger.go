@@ -65,10 +65,10 @@ func init() {
 	pathFile := fmt.Sprintf("%s%s/%s", applicationDir, os.Getenv("APPLICATION_NAME"), os.Getenv("FILENAME_LOG"))
 	LogFile = &lumberjack.Logger{
 		Filename:   pathFile, // Log file name
-		MaxSize:    1,        // Maximum size in megabytes before rotation
+		MaxSize:    10,       // Maximum size in megabytes before rotation
 		MaxBackups: 30,       // Maximum number of backup log files to keep
 		MaxAge:     30,       // Maximum number of days to retain old log files
-		Compress:   false,    // Compress old log files
+		Compress:   true,     // Compress old log files
 	}
 
 	once.Do(func() {

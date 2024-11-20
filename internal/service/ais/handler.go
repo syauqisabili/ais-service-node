@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func PubSubMessageHandler(target domain.Target) error {
+func PubSubMessageHandler(target domain.AisTarget) error {
 	// Get config
 	cnf := network.Get()
 	opts := []grpc.DialOption{}
@@ -54,37 +54,38 @@ func Handler(packet ais.Packet) error {
 
 	v := packet
 	msgId := v.GetHeader().MessageID
-	pkg.Log(log.InfoLevel, fmt.Sprintf("Message id: %d", msgId))
 
+	pkg.Log(log.InfoLevel, fmt.Sprintf("Message id: %d", msgId))
 	// Target
-	var target domain.Target
-	target.Timestamp = time.Now().Unix()
-	target.Mmsi = v.GetHeader().UserID
+	var aisTarget domain.AisTarget
+	aisTarget.MessageID = msgId
+	aisTarget.Target.Timestamp = time.Now().Unix()
+	aisTarget.Target.Mmsi = v.GetHeader().UserID
 
 	switch msgId {
 	case 1, 2, 3, 5, 27: // Class A
-		target.Class = domain.ClassA
+		aisTarget.Target.Class = domain.ClassA
 		if _, ok := v.(ais.PositionReport); ok {
-			target.NavigationalStatus = v.(ais.PositionReport).NavigationalStatus
-			target.Latitude = ais.FieldLatLonCoarse(v.(ais.PositionReport).Latitude)
-			target.Longitude = ais.FieldLatLonCoarse(v.(ais.PositionReport).Longitude)
-			target.TrueHeading = v.(ais.PositionReport).TrueHeading
-			target.Cog = ais.Field10(v.(ais.PositionReport).Cog)
-			target.Sog = ais.Field10(v.(ais.PositionReport).Sog)
+			aisTarget.Target.NavigationalStatus = v.(ais.PositionReport).NavigationalStatus
+			aisTarget.Target.Latitude = ais.FieldLatLonCoarse(v.(ais.PositionReport).Latitude)
+			aisTarget.Target.Longitude = ais.FieldLatLonCoarse(v.(ais.PositionReport).Longitude)
+			aisTarget.Target.TrueHeading = v.(ais.PositionReport).TrueHeading
+			aisTarget.Target.Cog = ais.Field10(v.(ais.PositionReport).Cog)
+			aisTarget.Target.Sog = ais.Field10(v.(ais.PositionReport).Sog)
 
 		} else if _, ok := v.(ais.ShipStaticData); ok {
-			target.ImoNumber = v.(ais.ShipStaticData).ImoNumber
-			target.Name = v.(ais.ShipStaticData).Name
-			target.CallSign = v.(ais.ShipStaticData).CallSign
-			target.ShipType = v.(ais.ShipStaticData).Type
-			target.Destination = v.(ais.ShipStaticData).Destination
-			target.Dimension = v.(ais.ShipStaticData).Dimension
+			aisTarget.Target.ImoNumber = v.(ais.ShipStaticData).ImoNumber
+			aisTarget.Target.Name = v.(ais.ShipStaticData).Name
+			aisTarget.Target.CallSign = v.(ais.ShipStaticData).CallSign
+			aisTarget.Target.ShipType = v.(ais.ShipStaticData).Type
+			aisTarget.Target.Destination = v.(ais.ShipStaticData).Destination
+			aisTarget.Target.Dimension = v.(ais.ShipStaticData).Dimension
 		} else if _, ok := v.(ais.LongRangeAisBroadcastMessage); ok {
-			target.NavigationalStatus = v.(ais.LongRangeAisBroadcastMessage).NavigationalStatus
-			target.Latitude = ais.FieldLatLonCoarse(v.(ais.LongRangeAisBroadcastMessage).Latitude)
-			target.Longitude = ais.FieldLatLonCoarse(v.(ais.LongRangeAisBroadcastMessage).Longitude)
-			target.Cog = ais.Field10(v.(ais.LongRangeAisBroadcastMessage).Cog)
-			target.Sog = ais.Field10(v.(ais.LongRangeAisBroadcastMessage).Sog)
+			aisTarget.Target.NavigationalStatus = v.(ais.LongRangeAisBroadcastMessage).NavigationalStatus
+			aisTarget.Target.Latitude = ais.FieldLatLonCoarse(v.(ais.LongRangeAisBroadcastMessage).Latitude)
+			aisTarget.Target.Longitude = ais.FieldLatLonCoarse(v.(ais.LongRangeAisBroadcastMessage).Longitude)
+			aisTarget.Target.Cog = ais.Field10(v.(ais.LongRangeAisBroadcastMessage).Cog)
+			aisTarget.Target.Sog = ais.Field10(v.(ais.LongRangeAisBroadcastMessage).Sog)
 		}
 
 	case 18, 19, 24: // Class B
@@ -92,29 +93,29 @@ func Handler(packet ais.Packet) error {
 		//! NavStatus does not exist
 		//! Destination does not exist
 
-		target.Class = domain.ClassB
+		aisTarget.Target.Class = domain.ClassB
 		if _, ok := v.(ais.StaticDataReport); ok {
-			target.Name = v.(ais.StaticDataReport).ReportA.Name
-			target.CallSign = v.(ais.StaticDataReport).ReportB.CallSign
-			target.ShipType = v.(ais.StaticDataReport).ReportB.ShipType
-			target.Dimension = ais.FieldDimension(v.(ais.StaticDataReport).ReportB.Dimension)
+			aisTarget.Target.Name = v.(ais.StaticDataReport).ReportA.Name
+			aisTarget.Target.CallSign = v.(ais.StaticDataReport).ReportB.CallSign
+			aisTarget.Target.ShipType = v.(ais.StaticDataReport).ReportB.ShipType
+			aisTarget.Target.Dimension = ais.FieldDimension(v.(ais.StaticDataReport).ReportB.Dimension)
 
 		} else if _, ok := v.(ais.StandardClassBPositionReport); ok {
-			target.Latitude = ais.FieldLatLonCoarse(v.(ais.StandardClassBPositionReport).Latitude)
-			target.Longitude = ais.FieldLatLonCoarse(v.(ais.StandardClassBPositionReport).Longitude)
-			target.TrueHeading = v.(ais.StandardClassBPositionReport).TrueHeading
-			target.Cog = ais.Field10(v.(ais.StandardClassBPositionReport).Cog)
-			target.Sog = ais.Field10(v.(ais.StandardClassBPositionReport).Sog)
+			aisTarget.Target.Latitude = ais.FieldLatLonCoarse(v.(ais.StandardClassBPositionReport).Latitude)
+			aisTarget.Target.Longitude = ais.FieldLatLonCoarse(v.(ais.StandardClassBPositionReport).Longitude)
+			aisTarget.Target.TrueHeading = v.(ais.StandardClassBPositionReport).TrueHeading
+			aisTarget.Target.Cog = ais.Field10(v.(ais.StandardClassBPositionReport).Cog)
+			aisTarget.Target.Sog = ais.Field10(v.(ais.StandardClassBPositionReport).Sog)
 
 		} else if _, ok := v.(ais.ExtendedClassBPositionReport); ok {
-			target.Name = v.(ais.ExtendedClassBPositionReport).Name
-			target.ShipType = v.(ais.ExtendedClassBPositionReport).Type
-			target.Latitude = ais.FieldLatLonCoarse(v.(ais.ExtendedClassBPositionReport).Latitude)
-			target.Longitude = ais.FieldLatLonCoarse(v.(ais.ExtendedClassBPositionReport).Longitude)
-			target.TrueHeading = v.(ais.ExtendedClassBPositionReport).TrueHeading
-			target.Cog = ais.Field10(v.(ais.ExtendedClassBPositionReport).Cog)
-			target.Sog = ais.Field10(v.(ais.ExtendedClassBPositionReport).Sog)
-			target.Dimension = ais.FieldDimension(v.(ais.ExtendedClassBPositionReport).Dimension)
+			aisTarget.Target.Name = v.(ais.ExtendedClassBPositionReport).Name
+			aisTarget.Target.ShipType = v.(ais.ExtendedClassBPositionReport).Type
+			aisTarget.Target.Latitude = ais.FieldLatLonCoarse(v.(ais.ExtendedClassBPositionReport).Latitude)
+			aisTarget.Target.Longitude = ais.FieldLatLonCoarse(v.(ais.ExtendedClassBPositionReport).Longitude)
+			aisTarget.Target.TrueHeading = v.(ais.ExtendedClassBPositionReport).TrueHeading
+			aisTarget.Target.Cog = ais.Field10(v.(ais.ExtendedClassBPositionReport).Cog)
+			aisTarget.Target.Sog = ais.Field10(v.(ais.ExtendedClassBPositionReport).Sog)
+			aisTarget.Target.Dimension = ais.FieldDimension(v.(ais.ExtendedClassBPositionReport).Dimension)
 		}
 	case 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 23, 25, 26:
 		//TODO: status = NotSupportedAisMSg
@@ -126,7 +127,8 @@ func Handler(packet ais.Packet) error {
 	}
 
 	// Publish target to broker
-	err := PubSubMessageHandler(target)
+	pkg.Log(log.InfoLevel, fmt.Sprintf("Target: %v", aisTarget))
+	err := PubSubMessageHandler(aisTarget)
 	if err != nil {
 		return err
 	}
