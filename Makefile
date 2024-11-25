@@ -39,8 +39,8 @@ endif
 .PHONY: pubsub ais gps vessel help
 project := pubsub ais gps vessel
 
-run:
-	@go run app/main.go
+run: ## Run app: "make build APP_NAME=$TEXT"
+	@go run ${APP_DIR}/$(APP_NAME)/main.go
 
 build: ## Build app: "make build APP_NAME=$TEXT"
 	go build -o ${BIN_DIR}/${APP_BIN} ./${APP_DIR}/$(APP_NAME)

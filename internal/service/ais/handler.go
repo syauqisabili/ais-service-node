@@ -55,7 +55,6 @@ func Handler(packet ais.Packet) error {
 	v := packet
 	msgId := v.GetHeader().MessageID
 
-	pkg.Log(log.InfoLevel, fmt.Sprintf("Message id: %d", msgId))
 	// Target
 	var aisTarget domain.AisTarget
 	aisTarget.MessageID = msgId
