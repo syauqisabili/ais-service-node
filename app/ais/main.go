@@ -7,6 +7,7 @@ import (
 	"github.com/joho/godotenv"
 	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/config"
 	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/config/network"
+	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/ais/serial"
 	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/internal/service/ais/udp"
 	"gitlab.com/elcarim-optronic-indonesia/elcas-service-node/pkg"
 )
@@ -33,16 +34,22 @@ func main() {
 
 	if networkSettings.SourceAis == network.SourceSerial {
 		// TODO: Init serial
+		if err := serial.Init(); err != nil {
+			pkg.Log(log.ErrorLevel, "Init serial fail!")
+			os.Exit(2)
+		}
+		// Run worker
+		go serial.Run()
 	} else {
 		// Init udp server
 		if err := udp.Init(); err != nil {
 			pkg.Log(log.ErrorLevel, "Init udp server fail!")
 			os.Exit(2)
 		}
-	}
 
-	// Run workers
-	go udp.Run()
+		// Run worker
+		go udp.Run()
+	}
 
 	// Prevent the main function from exiting
 	select {}
